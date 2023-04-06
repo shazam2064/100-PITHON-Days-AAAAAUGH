@@ -1,13 +1,19 @@
 from tkinter import *
 import requests
+from playsound import playsound
 
 
 def get_quote():
-    response = requests.get("https://api.kanye.rest")
-    response.raise_for_status()
-    data = response.json()
-    quote = data["quote"]
-    canvas.itemconfig(quote_text, text=quote)
+    res = requests.get(url="https://api.kanye.rest").json()['quote']
+    if len(res) > 150:
+        canvas.itemconfig(quote_text, text=res, font=("Ariel", 10, "bold"))
+    elif len(res) > 70:
+        canvas.itemconfig(quote_text, text=res, font=("Ariel", 20, "bold"))
+    else:
+        canvas.itemconfig(quote_text, text=res, font=("Arial", 30, "bold"))
+
+    playsound('bad-to-the-bone-meme.mp3')
+    print('playing sound using 🎸🎸🎸')
 
 
 window = Tk()
